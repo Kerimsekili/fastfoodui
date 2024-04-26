@@ -15,22 +15,8 @@ import {
   DialogContent,
   DialogTitle,
 } from "@mui/material";
-import { ThemeProvider, createTheme } from "@mui/material/styles";
+import ThemeProvider from "../../theme/ThemeProvider";
 import axios from "axios";
-
-const theme = createTheme({
-  typography: {
-    fontFamily: ["Public Sans", "sans-serif"].join(","),
-  },
-  palette: {
-    primary: {
-      main: "#000000",
-    },
-    secondary: {
-      main: "#666666",
-    },
-  },
-});
 
 function RestaurantDisplay() {
   const [restaurants, setRestaurants] = useState([]);
@@ -85,7 +71,7 @@ function RestaurantDisplay() {
   };
 
   return (
-    <ThemeProvider theme={theme}>
+    <ThemeProvider>
       <Container maxWidth="lg">
         <Paper
           elevation={3}

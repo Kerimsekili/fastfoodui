@@ -6,13 +6,13 @@ import RestaurantCreation from "../Restaurant/RestaurantCreation";
 import OrderCreation from "../Order/OrderCreation";
 import RestaurantDisplay from "../Restaurant/RestaurantDisplay";
 import OrderDisplay from "../Order/OrderDisplay";
+import EditOrder from "../Order/EditOrder";
 
 function App() {
   return (
     <Router>
       <Routes>
         <Route path="/" element={<Login />} />
-        <Route path="/home/*" element={<Layout></Layout>} />
         <Route
           path="/createRestaurant"
           element={
@@ -42,6 +42,14 @@ function App() {
           element={
             <Layout>
               <OrderDisplay />
+            </Layout>
+          }
+        />
+        <Route
+          path="/editOrder"
+          element={
+            <Layout>
+              <EditOrder />
             </Layout>
           }
         />

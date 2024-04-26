@@ -9,30 +9,15 @@ import {
   Link,
   Snackbar,
 } from "@mui/material";
-import { ThemeProvider, createTheme } from "@mui/material/styles";
+import ThemeProvider from "../../theme/ThemeProvider";
 import axios from "axios";
-import Navbar from "../Navbar/Navbar";
-
-const theme = createTheme({
-  typography: {
-    fontFamily: ["Public Sans", "sans-serif"].join(","),
-  },
-  palette: {
-    primary: {
-      main: "#000000", // Black color for primary elements
-    },
-    secondary: {
-      main: "#666666", // Grey color for secondary elements
-    },
-  },
-});
 
 function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
   const [open, setOpen] = useState(false);
-  const [role, setRole] = useState(""); // State to store user's role
+  const [role, setRole] = useState("");
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
@@ -47,15 +32,14 @@ function Login() {
       );
       console.log("Login successful:", response.data);
       setMessage("Login successful!");
-      const userRole = response.data.role; // Get user's role from response
-      setRole(userRole); // Set user's role in state
-      // Redirect to home page or appropriate page based on role
+      const userRole = response.data.role;
+      setRole(userRole);
       switch (userRole) {
         case "CUSTOMER":
-          navigate("/customer-dashboard");
+          navigate("/createOrder");
           break;
         case "RESTAURANT_MANAGER":
-          navigate("/restaurant-manager-dashboard");
+          navigate("/createRestaurant");
           break;
         case "GENERAL_MANAGER":
           navigate("/general-manager-dashboard");
@@ -76,7 +60,7 @@ function Login() {
   };
 
   return (
-    <ThemeProvider theme={theme}>
+    <ThemeProvider>
       <Container
         maxWidth="md"
         style={{

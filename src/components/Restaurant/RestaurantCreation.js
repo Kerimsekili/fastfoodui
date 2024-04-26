@@ -11,39 +11,23 @@ import {
   Select,
   MenuItem,
 } from "@mui/material";
-import { ThemeProvider, createTheme } from "@mui/material/styles";
+import ThemeProvider from "../../theme/ThemeProvider";
 import axios from "axios";
-
-const theme = createTheme({
-  typography: {
-    fontFamily: ["Public Sans", "sans-serif"].join(","),
-  },
-  palette: {
-    primary: {
-      main: "#000000", // Black color for primary elements
-    },
-    secondary: {
-      main: "#666666", // Grey color for secondary elements
-    },
-  },
-});
 
 function RestaurantCreation() {
   const [restaurantName, setRestaurantName] = useState("");
   const [restaurantAddress, setRestaurantAddress] = useState("");
-  const [selectedManagerName, setSelectedManagerName] = useState(""); // Change state variable name to indicate it stores manager name
   const [selectedManagerId, setSelectedManagerId] = useState("");
   const [managers, setManagers] = useState([]);
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
 
   useEffect(() => {
-    // Fetch all restaurant managers
     axios
       .get("http://localhost:8080/api/users/managers")
       .then((response) => {
         setManagers(response.data);
-        console.log("Managers:", response.data); // Add this line to log managers
+        console.log("Managers:", response.data);
       })
       .catch((error) => {
         console.error("Error fetching restaurant managers:", error);
@@ -57,7 +41,7 @@ function RestaurantCreation() {
       await axios.post("http://localhost:8080/api/restaurants/create", {
         name: restaurantName,
         address: restaurantAddress,
-        managerId: selectedManagerId, // Use the selected manager's ID
+        managerId: selectedManagerId,
       });
       setMessage("Restaurant Created Successfully");
     } catch (error) {
@@ -67,7 +51,7 @@ function RestaurantCreation() {
   };
 
   return (
-    <ThemeProvider theme={theme}>
+    <ThemeProvider>
       <Container maxWidth="md">
         <Paper
           elevation={3}

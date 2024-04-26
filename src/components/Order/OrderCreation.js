@@ -11,26 +11,12 @@ import {
   Select,
   MenuItem,
 } from "@mui/material";
-import { ThemeProvider, createTheme } from "@mui/material/styles";
+import ThemeProvider from "../../theme/ThemeProvider";
 import axios from "axios";
-
-const theme = createTheme({
-  typography: {
-    fontFamily: ["Public Sans", "sans-serif"].join(","),
-  },
-  palette: {
-    primary: {
-      main: "#000000", // Black color for primary elements
-    },
-    secondary: {
-      main: "#666666", // Grey color for secondary elements
-    },
-  },
-});
 
 function OrderCreation() {
   const [productName, setProductName] = useState("");
-  const [restaurantName, setRestaurantName] = useState("");
+  const [restaurantId, setRestaurantId] = useState(""); // Changed to store restaurant ID
   const [deliveryAddress, setDeliveryAddress] = useState("");
   const [customerName, setCustomerName] = useState("");
   const [contactNumber, setContactNumber] = useState("");
@@ -57,7 +43,7 @@ function OrderCreation() {
     try {
       await axios.post("http://localhost:8080/api/orders/create", {
         productName,
-        restaurantName,
+        restaurantId,
         deliveryAddress,
         customerName,
         contactNumber,
@@ -71,7 +57,7 @@ function OrderCreation() {
   };
 
   return (
-    <ThemeProvider theme={theme}>
+    <ThemeProvider>
       <Container maxWidth="md">
         <Paper
           elevation={3}
@@ -130,13 +116,14 @@ function OrderCreation() {
               <Select
                 labelId="restaurant-name-label"
                 id="restaurant-name"
-                value={restaurantName}
-                onChange={(e) => setRestaurantName(e.target.value)}
+                value={restaurantId}
+                onChange={(e) => setRestaurantId(e.target.value)}
                 label="Restaurant Name"
                 inputProps={{ style: { borderRadius: "15px" } }}
               >
                 {restaurants.map((restaurant) => (
-                  <MenuItem key={restaurant.id} value={restaurant.name}>
+                  <MenuItem key={restaurant.id} value={restaurant.id}>
+                    {" "}
                     {restaurant.name}
                   </MenuItem>
                 ))}
@@ -173,22 +160,6 @@ function OrderCreation() {
               onChange={(e) => setContactNumber(e.target.value)}
               InputProps={{ style: { borderRadius: "15px" } }}
             />
-            <FormControl fullWidth margin="normal" variant="outlined">
-              <InputLabel id="current-status-label">Current Status</InputLabel>
-              <Select
-                labelId="current-status-label"
-                id="current-status"
-                value={currentStatus}
-                onChange={(e) => setCurrentStatus(e.target.value)}
-                label="Current Status"
-                inputProps={{ style: { borderRadius: "15px" } }}
-              >
-                <MenuItem value="order received">Order Received</MenuItem>
-                <MenuItem value="prepared">Prepared</MenuItem>
-                <MenuItem value="set out">Set Out</MenuItem>
-                <MenuItem value="delivered">Delivered</MenuItem>
-              </Select>
-            </FormControl>
             <Button
               type="submit"
               variant="contained"

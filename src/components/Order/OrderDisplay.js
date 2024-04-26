@@ -15,31 +15,16 @@ import {
   DialogContent,
   DialogTitle,
 } from "@mui/material";
-import { ThemeProvider, createTheme } from "@mui/material/styles";
+import ThemeProvider from "../../theme/ThemeProvider";
 import axios from "axios";
+import EditOrder from "./EditOrder";
 
-const theme = createTheme({
-  typography: {
-    fontFamily: ["Public Sans", "sans-serif"].join(","),
-  },
-  palette: {
-    primary: {
-      main: "#000000", // Black color for primary elements
-    },
-    secondary: {
-      main: "#666666", // Grey color for secondary elements
-    },
-  },
-});
-
-// Mapping function to convert internal product names to display names
 const productNameMap = {
   HAMBURGER_MENU: "Hamburger Menu",
   PIZZA_MENU: "Pizza Menu",
   DONER_MENU: "Döner Menu",
 };
 
-// Mapping function to convert internal order statuses to display names
 const orderStatusMap = {
   ORDER_RECEIVED: "Order Received",
   PREPARED: "Prepared",
@@ -51,10 +36,11 @@ function OrderViewScreen() {
   const [orders, setOrders] = useState([]);
   const [error, setError] = useState("");
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
+  const [openEditDialog, setOpenEditDialog] = useState(false);
+  const [editedOrder, setEditedOrder] = useState({});
   const [orderToDeleteId, setOrderToDeleteId] = useState(null);
 
   useEffect(() => {
-    // Fetch orders
     axios
       .get("http://localhost:8080/api/orders/getAll")
       .then((response) => {
@@ -71,13 +57,11 @@ function OrderViewScreen() {
     setOpenDeleteDialog(true);
   };
   const handleDelete = (id) => {
-    setOpenDeleteDialog(false); // Close the dialog
-    // Send delete request to backend
+    setOpenDeleteDialog(false);
     axios
       .delete(`http://localhost:8080/api/orders/delete/${id}`)
       .then((response) => {
         console.log("Order deleted successfully");
-        // Refresh the order list after deletion
         setOrders(orders.filter((order) => order.id !== id));
       })
       .catch((error) => {
@@ -86,14 +70,17 @@ function OrderViewScreen() {
       });
   };
 
-  const handleEdit = (id) => {
-    // Redirect to edit screen for the selected order
-    // Implementation of redirection depends on your routing setup
-    console.log("Edit order with id:", id);
+  const handleEdit = (order) => {
+    setOpenEditDialog(true);
+    setEditedOrder(order);
+  };
+
+  const handleCloseEditDialog = () => {
+    setOpenEditDialog(false);
   };
 
   return (
-    <ThemeProvider theme={theme}>
+    <ThemeProvider>
       <Container maxWidth="lg">
         <Paper
           elevation={3}
@@ -134,7 +121,7 @@ function OrderViewScreen() {
                   <TableCell>Contact Number</TableCell>
                   <TableCell>Order Status</TableCell>
                   <TableCell>Action</TableCell>
-                  <TableCell>Edit</TableCell> {/* Add Edit column */}
+                  <TableCell>Edit</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -160,7 +147,6 @@ function OrderViewScreen() {
                     </TableCell>
                     <TableCell>
                       {" "}
-                      {/* Edit button column */}
                       <Button
                         variant="contained"
                         color="primary"
@@ -195,6 +181,17 @@ function OrderViewScreen() {
             Yes
           </Button>
         </DialogActions>
+      </Dialog>
+      <Dialog
+        open={openEditDialog}
+        onClose={handleCloseEditDialog}
+        maxWidth="sm"
+        fullWidth
+      >
+        <DialogTitle>Edit Order</DialogTitle>
+        <DialogContent>
+          <EditOrder order={editedOrder} onClose={handleCloseEditDialog} />
+        </DialogContent>
       </Dialog>
     </ThemeProvider>
   );
