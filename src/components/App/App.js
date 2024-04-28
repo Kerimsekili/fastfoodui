@@ -9,6 +9,7 @@ import OrderDisplay from "../Order/OrderDisplay";
 import EditOrder from "../Order/EditOrder";
 
 function App() {
+  const userRole = localStorage.getItem("role");
   return (
     <Router>
       <Routes>

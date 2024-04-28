@@ -33,16 +33,17 @@ function Login() {
       console.log("Login successful:", response.data);
       setMessage("Login successful!");
       const userRole = response.data.role;
+      localStorage.setItem("role", userRole);
       setRole(userRole);
       switch (userRole) {
         case "CUSTOMER":
           navigate("/createOrder");
           break;
         case "RESTAURANT_MANAGER":
-          navigate("/createRestaurant");
+          navigate("/displayOrder");
           break;
         case "GENERAL_MANAGER":
-          navigate("/general-manager-dashboard");
+          navigate("/createRestaurant");
           break;
         default:
           navigate("/");

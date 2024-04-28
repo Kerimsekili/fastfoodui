@@ -26,6 +26,7 @@ function RestaurantCreation() {
     axios
       .get("http://localhost:8080/api/users/managers")
       .then((response) => {
+        console.log(response.data);
         setManagers(response.data);
         console.log("Managers:", response.data);
       })
@@ -37,6 +38,7 @@ function RestaurantCreation() {
 
   const handleRestaurantCreation = async (e) => {
     e.preventDefault();
+    console.log(e.data);
     try {
       await axios.post("http://localhost:8080/api/restaurants/create", {
         name: restaurantName,
@@ -123,8 +125,8 @@ function RestaurantCreation() {
                 inputProps={{ style: { borderRadius: "15px" } }}
               >
                 {managers.map((manager) => (
-                  <MenuItem key={manager} value={manager}>
-                    {manager}
+                  <MenuItem key={manager.id} value={manager.id}>
+                    {manager.username}
                   </MenuItem>
                 ))}
               </Select>

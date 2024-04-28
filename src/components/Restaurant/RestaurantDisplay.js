@@ -17,12 +17,15 @@ import {
 } from "@mui/material";
 import ThemeProvider from "../../theme/ThemeProvider";
 import axios from "axios";
+import EditRestaurant from "./EditRestaurant";
 
 function RestaurantDisplay() {
   const [restaurants, setRestaurants] = useState([]);
   const [error, setError] = useState("");
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
   const [restaurantToDeleteId, setRestaurantToDeleteId] = useState(null);
+  const [openEditDialog, setOpenEditDialog] = useState(false);
+  const [restaurant, setRestaurant] = useState({}); // Add this state
 
   const openDeleteConfirmationDialog = (id) => {
     setRestaurantToDeleteId(id);
@@ -62,12 +65,19 @@ function RestaurantDisplay() {
       });
   }, []);
 
-  const handleEdit = (id) => {
-    console.log("Edit restaurant with id:", id);
+  const handleEdit = (restaurant) => {
+    console.log(restaurant);
+    setRestaurant(restaurant); // Set restaurant state when edit button is clicked
+    setOpenEditDialog(true); // Open edit dialog when edit button is clicked
   };
 
   const handleDelete = (id) => {
     openDeleteConfirmationDialog(id);
+  };
+
+  const handleCloseEditDialog = () => {
+    // Define handleCloseEditDialog function
+    setOpenEditDialog(false);
   };
 
   return (
@@ -120,7 +130,7 @@ function RestaurantDisplay() {
                       <Button
                         variant="contained"
                         color="primary"
-                        onClick={() => handleEdit(restaurant.id)}
+                        onClick={() => handleEdit(restaurant)}
                       >
                         Edit
                       </Button>
@@ -151,6 +161,20 @@ function RestaurantDisplay() {
               Delete
             </Button>
           </DialogActions>
+        </Dialog>
+        <Dialog
+          open={openEditDialog}
+          onClose={handleCloseEditDialog}
+          maxWidth="sm"
+          fullWidth
+        >
+          <DialogTitle>Edit Restaurant</DialogTitle>
+          <DialogContent>
+            <EditRestaurant
+              restaurant={restaurant}
+              onClose={handleCloseEditDialog}
+            />
+          </DialogContent>
         </Dialog>
       </Container>
     </ThemeProvider>

@@ -16,9 +16,9 @@ import {
 import axios from "axios";
 
 function EditRestaurant({ open, onClose, restaurant }) {
-  const [name, setName] = useState("");
-  const [address, setAddress] = useState("");
-  const [manager, setManager] = useState("");
+  const [name, setName] = useState(restaurant?.name || "");
+  const [address, setAddress] = useState(restaurant?.address || "");
+  const [manager, setManager] = useState(restaurant?.manager || {});
   const [managers, setManagers] = useState([]);
   const [error, setError] = useState("");
 
@@ -35,20 +35,12 @@ function EditRestaurant({ open, onClose, restaurant }) {
       });
   }, [open]);
 
-  useEffect(() => {
-    if (restaurant) {
-      setName(restaurant.name);
-      setAddress(restaurant.address);
-      setManager(restaurant.managerId);
-    }
-  }, [restaurant]);
-
   const handleSave = () => {
     axios
-      .put(`http://localhost:8080/api/restaurants/${restaurant.id}`, {
+      .put(`http://localhost:8080/api/restaurants/update/${restaurant.id}`, {
         name,
         address,
-        managerId: manager,
+        managerId: +manager.id,
       })
       .then((response) => {
         console.log("Restaurant updated successfully:", response.data);
@@ -60,42 +52,42 @@ function EditRestaurant({ open, onClose, restaurant }) {
   };
 
   return (
-    <Dialog open={open} onClose={onClose} maxWidth="sm" fullWidth>
-      <DialogTitle>Edit Restaurant</DialogTitle>
-      <DialogContent>
-        <TextField
-          label="Restaurant Name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          fullWidth
-          margin="normal"
-        />
-        <TextareaAutosize
-          label="Restaurant Address"
-          value={address}
-          onChange={(e) => setAddress(e.target.value)}
-          minRows={3}
-          placeholder="Address"
-          style={{ width: "100%", marginTop: "16px" }}
-        />
-        <FormControl fullWidth margin="normal">
-          <InputLabel>Restaurant Manager</InputLabel>
-          <Select value={manager} onChange={(e) => setManager(e.target.value)}>
-            {managers.map((manager) => (
-              <MenuItem key={manager.id} value={manager.id}>
-                {manager.name}
+    <>
+      <TextField
+        label="Restaurant Name"
+        value={name}
+        onChange={(e) => setName(e.target.value)}
+        fullWidth
+        margin="normal"
+      />
+      <TextareaAutosize
+        label="Restaurant Address"
+        value={address}
+        onChange={(e) => setAddress(e.target.value)}
+        minRows={3}
+        placeholder="Address"
+        style={{ width: "100%", marginTop: "16px" }}
+      />
+      <FormControl fullWidth margin="normal">
+        {/* <InputLabel>{manager.username}</InputLabel> */}
+        <Select value={manager} onChange={(e) => setManager(e.target.value)}>
+          <MenuItem key={manager.id} value={manager}>
+            {manager.username}
+          </MenuItem>
+          {managers
+            .filter((eachManager) => manager.id !== eachManager.id)
+            .map((eachManager) => (
+              <MenuItem key={eachManager.id} value={eachManager}>
+                {eachManager.username}
               </MenuItem>
             ))}
-          </Select>
-        </FormControl>
-      </DialogContent>
+        </Select>
+      </FormControl>
       <DialogActions>
         <Button onClick={onClose}>Cancel</Button>
-        <Button onClick={handleSave} color="primary">
-          Save
-        </Button>
+        <Button onClick={handleSave}>Save</Button>
       </DialogActions>
-    </Dialog>
+    </>
   );
 }
 

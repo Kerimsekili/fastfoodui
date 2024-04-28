@@ -137,22 +137,22 @@ function OrderViewScreen() {
                       {orderStatusMap[order.orderStatus] || order.orderStatus}
                     </TableCell>
                     <TableCell>
+                      {" "}
+                      <Button
+                        variant="contained"
+                        color="primary"
+                        onClick={() => handleEdit(order)}
+                      >
+                        Edit
+                      </Button>
+                    </TableCell>
+                    <TableCell>
                       <Button
                         variant="contained"
                         color="secondary"
                         onClick={() => openDeleteConfirmationDialog(order.id)}
                       >
                         Delete
-                      </Button>
-                    </TableCell>
-                    <TableCell>
-                      {" "}
-                      <Button
-                        variant="contained"
-                        color="primary"
-                        onClick={() => handleEdit(order.id)}
-                      >
-                        Edit
                       </Button>
                     </TableCell>
                   </TableRow>
