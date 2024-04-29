@@ -58,13 +58,14 @@ The project structure is organized as follows:
 - `src/`: Contains all source code files.
   - `packages/`: Packages directory.
     - `app/`: Main application directory.
+      - `App.js`: Main application component.Routing the pages.    
       - `components/`: Reusable components used across different views.
         - `Layout.js`: Defines the layout structure for different pages.
+      - `navbar/`: Reusable Navbar.
         - `Navbar.js`: Navigation bar component.
       - `error/`: Contains components related to error handling.
-        - `ErrorBoundary.js`: Error boundary component.
         - `NotFoundPage.js`: Component for displaying a 404 error page.
-      - `login/`: Contains components related to login functionality.
+      - `login/`: Contains components for login functionality.
         - `Login.js`: Login component.
       - `order/`: Contains components related to order management.
         - `OrderCreation.js`: Component for creating a new order.
@@ -73,10 +74,9 @@ The project structure is organized as follows:
       - `restaurant/`: Contains components related to restaurant management.
         - `RestaurantCreation.js`: Component for creating a new restaurant.
         - `RestaurantDisplay.js`: Component for displaying restaurant details.
+        - `EditRestaurant.js`: Component for editing an existing restaurant.
       - `theme/`: Contains theme-related files.
-        - `colors.js`: Theme colors configuration.
-        - `typography.js`: Theme typography configuration.
-      - `App.js`: Main application component.
+        - `ThemeProvider.js`: ThemeProvider so that we can use the same theme within the application. 
     - `index.js`: Entry point of the application.
 - `public/`: Contains static assets and HTML template for the application.
 - `node_modules/`: Contains project dependencies.
