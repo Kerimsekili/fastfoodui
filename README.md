@@ -1,4 +1,4 @@
-# FastFootUI Frontend
+# Fastfood UI
 
 ## Table of Contents
 
