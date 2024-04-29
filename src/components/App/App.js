@@ -1,7 +1,7 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Login from "../Login/Login";
-import Layout from "../../Layout";
+import Layout from "../Layout/Layout";
 import RestaurantCreation from "../Restaurant/RestaurantCreation";
 import OrderCreation from "../Order/OrderCreation";
 import RestaurantDisplay from "../Restaurant/RestaurantDisplay";

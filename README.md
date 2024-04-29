@@ -56,26 +56,28 @@ Access the application in your web browser at http://localhost:3001.
 The project structure is organized as follows:
 
 - `src/`: Contains all source code files.
-  - `components/`: Reusable components used across different views.
-    - `Layout.js`: Defines the layout structure for different pages.
-    - `Login/`: Contains the login component.
-    - `Restaurant/`: Contains components related to restaurant management.
-      - `RestaurantCreation.js`: Component for creating a new restaurant.
-      - `RestaurantDisplay.js`: Component for displaying restaurant details.
-    - `Order/`: Contains components related to order management.
-      - `OrderCreation.js`: Component for creating a new order.
-      - `OrderDisplay.js`: Component for displaying order details.
-      - `EditOrder.js`: Component for editing an existing order.
-    - `Error/`: Contains components related to error handling.
-      - `NotFoundPage.js`: Component for displaying a 404 error page.
-  - `views/`: Top-level views of the application.
-    - `Login.js`: Login page view.
-    - `RestaurantCreation.js`: View for creating a new restaurant.
-    - `OrderCreation.js`: View for creating a new order.
-    - `RestaurantDisplay.js`: View for displaying restaurant details.
-    - `OrderDisplay.js`: View for displaying order details.
-    - `EditOrder.js`: View for editing an existing order.
-  - `index.js`: Entry point of the application.
+  - `packages/`: Packages directory.
+    - `app/`: Main application directory.
+      - `components/`: Reusable components used across different views.
+        - `Layout.js`: Defines the layout structure for different pages.
+        - `Navbar.js`: Navigation bar component.
+      - `error/`: Contains components related to error handling.
+        - `ErrorBoundary.js`: Error boundary component.
+        - `NotFoundPage.js`: Component for displaying a 404 error page.
+      - `login/`: Contains components related to login functionality.
+        - `Login.js`: Login component.
+      - `order/`: Contains components related to order management.
+        - `OrderCreation.js`: Component for creating a new order.
+        - `OrderDisplay.js`: Component for displaying order details.
+        - `EditOrder.js`: Component for editing an existing order.
+      - `restaurant/`: Contains components related to restaurant management.
+        - `RestaurantCreation.js`: Component for creating a new restaurant.
+        - `RestaurantDisplay.js`: Component for displaying restaurant details.
+      - `theme/`: Contains theme-related files.
+        - `colors.js`: Theme colors configuration.
+        - `typography.js`: Theme typography configuration.
+      - `App.js`: Main application component.
+    - `index.js`: Entry point of the application.
 - `public/`: Contains static assets and HTML template for the application.
 - `node_modules/`: Contains project dependencies.
 - `package.json`: Manifest file containing project metadata and dependencies.
@@ -89,7 +91,6 @@ The project structure is organized as follows:
 - `OrderCreation`: Allows customers to create a new order.
 - `RestaurantDisplay`: Displays details of a restaurant.
 - `OrderDisplay`: Displays details of an order.
-- `EditOrder`: Allows users to edit an existing order.
 - `NotFoundPage`: Displays a 404 error page when a route is not found.
 
 ## Dependencies
