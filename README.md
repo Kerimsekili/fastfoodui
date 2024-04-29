@@ -1,70 +1,101 @@
-# Getting Started with Create React App
+# FastFootUI Frontend
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Table of Contents
 
-## Available Scripts
+- [Project Overview](#project-overview)
+- [Features](#features)
+- [Installation](#installation)
+- [Project Structure](#project-structure)
+- [Class Descriptions](#class-descriptions)
+- [Dependencies](#dependencies)
 
-In the project directory, you can run:
+## Project Overview
 
-### `npm start`
+This project is a frontend application for managing restaurants and orders in a fast-food establishment. It provides a user interface for restaurant owners to create and display restaurants, as well as for customers to create and display orders.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+### Features
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+- **Restaurant Management**: Create, display, and edit restaurant details.
+- **Order Management**: Create, display, and edit customer orders.
+- **Role-based Authentication**: Differentiate between restaurant owners and customers using role-based authentication.
 
-### `npm test`
+## Installation
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+To run this project locally, follow these steps:
 
-### `npm run build`
+1. Clone the repository:
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+   ```sh
+   git clone <repository_url>
+   ```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+2. Navigate to the project directory:
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+   ```sh
+   cd <project_directory>
+   ```
 
-### `npm run eject`
+3. Install dependencies:
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+   ```sh
+   npm install
+   ```
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## Usage
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+After installation, start the development server:
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+```sh
+npm start
+```
 
-## Learn More
+Access the application in your web browser at http://localhost:3001.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## Project Structure
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+The project structure is organized as follows:
 
-### Code Splitting
+- `src/`: Contains all source code files.
+  - `components/`: Reusable components used across different views.
+    - `Layout.js`: Defines the layout structure for different pages.
+    - `Login/`: Contains the login component.
+    - `Restaurant/`: Contains components related to restaurant management.
+      - `RestaurantCreation.js`: Component for creating a new restaurant.
+      - `RestaurantDisplay.js`: Component for displaying restaurant details.
+    - `Order/`: Contains components related to order management.
+      - `OrderCreation.js`: Component for creating a new order.
+      - `OrderDisplay.js`: Component for displaying order details.
+      - `EditOrder.js`: Component for editing an existing order.
+    - `Error/`: Contains components related to error handling.
+      - `NotFoundPage.js`: Component for displaying a 404 error page.
+  - `views/`: Top-level views of the application.
+    - `Login.js`: Login page view.
+    - `RestaurantCreation.js`: View for creating a new restaurant.
+    - `OrderCreation.js`: View for creating a new order.
+    - `RestaurantDisplay.js`: View for displaying restaurant details.
+    - `OrderDisplay.js`: View for displaying order details.
+    - `EditOrder.js`: View for editing an existing order.
+  - `index.js`: Entry point of the application.
+- `public/`: Contains static assets and HTML template for the application.
+- `node_modules/`: Contains project dependencies.
+- `package.json`: Manifest file containing project metadata and dependencies.
+- `README.md`: Project documentation.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+## Class Descriptions
 
-### Analyzing the Bundle Size
+- `Login`: Renders the login page and handles user authentication.
+- `Layout`: Defines the layout structure for different pages by wrapping them with a common layout component.
+- `RestaurantCreation`: Allows restaurant owners to create a new restaurant.
+- `OrderCreation`: Allows customers to create a new order.
+- `RestaurantDisplay`: Displays details of a restaurant.
+- `OrderDisplay`: Displays details of an order.
+- `EditOrder`: Allows users to edit an existing order.
+- `NotFoundPage`: Displays a 404 error page when a route is not found.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+## Dependencies
 
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- **React**: JavaScript library for building user interfaces.
+- **Material-UI**: React component library implementing Google's Material Design.
+- **Axios**: Promise-based HTTP client for the browser and Node.js.
+- **React Router DOM**: Declarative routing for React applications.
+- **Docker**: Containerization platform for building, shipping, and running applications.
