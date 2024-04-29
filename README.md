@@ -11,7 +11,7 @@
 
 ## Project Overview
 
-This project is a frontend application for managing restaurants and orders in a fast-food establishment. It provides a user interface for restaurant owners to create and display restaurants, as well as for customers to create and display orders.
+This project is a frontend application for managing restaurants and orders in a fast-food establishment. It provides a user interface for managers to create,update and display restaurants, as well as for customers to creating orders.
 
 ### Features
 
