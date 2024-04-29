@@ -56,17 +56,26 @@ function OrderViewScreen() {
     setOrderToDeleteId(id);
     setOpenDeleteDialog(true);
   };
+  var role = localStorage.getItem("role");
+  role = role.replace(/\s/g, "");
   const handleDelete = (id) => {
     setOpenDeleteDialog(false);
     axios
-      .delete(`http://localhost:8080/api/orders/delete/${id}`)
+      .delete(`http://localhost:8080/api/orders/delete/${id}/${role}`)
       .then((response) => {
-        console.log("Order deleted successfully");
-        setOrders(orders.filter((order) => order.id !== id));
+        if (response.status !== 200) {
+          console.error("Error updating restaurant:", response.data);
+          alert("Error updating restaurant");
+        } else {
+          console.log("Order deleted successfully:", response.data);
+          window.location.reload();
+        }
       })
       .catch((error) => {
         console.error("Error deleting order:", error);
-        setError("Error deleting order");
+        if (error.response.status === 401) {
+          alert("You are not allowed to delete this order");
+        }
       });
   };
 

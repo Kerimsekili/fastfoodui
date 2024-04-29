@@ -22,7 +22,6 @@ function EditRestaurant({ open, onClose, restaurant }) {
       .get("http://localhost:8080/api/users/managers")
       .then((response) => {
         setManagers(response.data);
-        console.log("Managers:", response.data);
       })
       .catch((error) => {
         console.error("Error fetching restaurant managers:", error);
@@ -30,22 +29,35 @@ function EditRestaurant({ open, onClose, restaurant }) {
       });
   }, [open]);
 
+  var role = localStorage.getItem("role");
+  role = role.replace(/\s/g, "");
   const handleSave = () => {
     axios
-      .put(`http://localhost:8080/api/restaurants/update/${restaurant.id}`, {
-        name,
-        address,
-        managerId: +manager.id,
-      })
+      .put(
+        `http://localhost:8080/api/restaurants/update/${restaurant.id}/${role}`,
+        {
+          name,
+          address,
+          managerId: +manager.id,
+        }
+      )
       .then((response) => {
-        console.log("Restaurant updated successfully:", response.data);
-        onClose();
+        if (response.status !== 200) {
+          console.error("Error updating restaurant:", response.data);
+          alert("Error updating restaurant");
+        } else {
+          console.log("Restaurant updated successfully:", response.data);
+          window.location.reload();
+          onClose();
+        }
       })
       .catch((error) => {
         console.error("Error updating restaurant:", error);
+        if (error.response.status === 401) {
+          alert("You are not allowed to update this restaurant");
+        }
       });
   };
-
   return (
     <>
       <TextField

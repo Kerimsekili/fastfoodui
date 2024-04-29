@@ -38,19 +38,35 @@ function RestaurantCreation() {
         setError("Error fetching restaurant managers");
       });
   }, []);
-
+  var role = localStorage.getItem("role");
+  role = role.replace(/\s/g, "");
   const handleRestaurantCreation = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("http://localhost:8080/api/restaurants/create", {
-        name: restaurantName,
-        address: restaurantAddress,
-        managerId: selectedManagerId,
-      });
-      setSuccessDialogOpen(true);
-      setRestaurantName("");
-      setRestaurantAddress("");
-      setSelectedManagerId("");
+      await axios
+        .post(`http://localhost:8080/api/restaurants/create/${role}`, {
+          name: restaurantName,
+          address: restaurantAddress,
+          managerId: selectedManagerId,
+        })
+        .then((response) => {
+          if (response.status !== 200) {
+            console.error("Error creating restaurant:", response.data);
+            alert("Error updating restaurant");
+          } else {
+            setSuccessDialogOpen(true);
+            setRestaurantName("");
+            setRestaurantAddress("");
+            setSelectedManagerId("");
+            console.log("Restaurant created successfully:", response.data);
+          }
+        })
+        .catch((error) => {
+          console.error("Error creating restaurant:", error);
+          if (error.response.status === 401) {
+            alert("You are not allowed to create restaurant");
+          }
+        });
     } catch (error) {
       console.error("Error creating restaurant:", error);
       setError("Error creating restaurant");

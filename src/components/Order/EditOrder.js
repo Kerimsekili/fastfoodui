@@ -37,7 +37,8 @@ function EditOrder({ order, onClose }) {
   const nav = useNavigate();
 
   useEffect(() => {}, [updated]);
-
+  var role = localStorage.getItem("role");
+  role = role.replace(/\s/g, "");
   const handleSave = async () => {
     setError("");
     try {
@@ -51,17 +52,27 @@ function EditOrder({ order, onClose }) {
       };
       await axios
         .put(
-          `http://localhost:8080/api/orders/update/${order.id}`,
+          `http://localhost:8080/api/orders/update/${order.id}/${role}`,
           updatedOrder
         )
         .then((response) => {
-          console.log("Order updated successfully:", response.data);
-          updated === true ? setUpdated(false) : setUpdated(true);
+          if (response.status !== 200) {
+            console.error("Error creating restaurant", response.data);
+            alert("Error updating order");
+          } else {
+            console.log("Order updated successfully", response.data);
+            window.location.reload();
+            onClose();
+          }
+        })
+        .catch((error) => {
+          console.error("Error updating Order", error);
+          if (error.response.status === 401) {
+            alert("You are not allowed to update this order");
+          }
         });
-      onClose(); // Close the edit dialog
-      nav("/displayOrder");
     } catch (error) {
-      console.error("Error updating order:", error);
+      console.error("Error updating order", error);
       setError("Error updating order");
     }
   };

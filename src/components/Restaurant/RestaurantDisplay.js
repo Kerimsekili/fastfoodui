@@ -31,24 +31,27 @@ function RestaurantDisplay() {
     setRestaurantToDeleteId(id);
     setOpenDeleteDialog(true);
   };
-
+  var role = localStorage.getItem("role");
+  role = role.replace(/\s/g, "");
   const confirmDelete = () => {
     console.log("Delete restaurant with id:", restaurantToDeleteId);
     axios
       .delete(
-        `http://localhost:8080/api/restaurants/delete/${restaurantToDeleteId}`
+        `http://localhost:8080/api/restaurants/delete/${restaurantToDeleteId}/${role}`
       )
       .then((response) => {
-        console.log("Restaurant deleted successfully");
-        setRestaurants(
-          restaurants.filter(
-            (restaurant) => restaurant.id !== restaurantToDeleteId
-          )
-        );
+        if (response.status !== 200) {
+          console.error("Error updating restaurant:", response.data);
+          alert("Error updating restaurant");
+        } else {
+          console.log("Restaurant deleted successfully:", response.data);
+        }
       })
       .catch((error) => {
         console.error("Error deleting restaurant:", error);
-        setError("Error deleting restaurant");
+        if (error.response.status === 401) {
+          alert("You are not allowed to delete this order");
+        }
       });
     setOpenDeleteDialog(false);
   };
