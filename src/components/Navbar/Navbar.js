@@ -15,7 +15,6 @@ import MenuIcon from "@mui/icons-material/Menu";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import ViewListIcon from "@mui/icons-material/ViewList";
 import RestaurantIcon from "@mui/icons-material/Restaurant";
-import EditIcon from "@mui/icons-material/Edit";
 
 const Navbar = () => {
   const [drawerOpen, setDrawerOpen] = React.useState(false);

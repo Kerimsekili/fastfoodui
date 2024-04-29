@@ -25,7 +25,7 @@ function RestaurantDisplay() {
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
   const [restaurantToDeleteId, setRestaurantToDeleteId] = useState(null);
   const [openEditDialog, setOpenEditDialog] = useState(false);
-  const [restaurant, setRestaurant] = useState({}); // Add this state
+  const [restaurant, setRestaurant] = useState({});
 
   const openDeleteConfirmationDialog = (id) => {
     setRestaurantToDeleteId(id);
@@ -67,8 +67,8 @@ function RestaurantDisplay() {
 
   const handleEdit = (restaurant) => {
     console.log(restaurant);
-    setRestaurant(restaurant); // Set restaurant state when edit button is clicked
-    setOpenEditDialog(true); // Open edit dialog when edit button is clicked
+    setRestaurant(restaurant);
+    setOpenEditDialog(true);
   };
 
   const handleDelete = (id) => {
@@ -76,7 +76,6 @@ function RestaurantDisplay() {
   };
 
   const handleCloseEditDialog = () => {
-    // Define handleCloseEditDialog function
     setOpenEditDialog(false);
   };
 

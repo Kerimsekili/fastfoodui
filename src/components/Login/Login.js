@@ -6,7 +6,6 @@ import {
   TextField,
   Button,
   Typography,
-  Link,
   Snackbar,
 } from "@mui/material";
 import ThemeProvider from "../../theme/ThemeProvider";
@@ -30,24 +29,29 @@ function Login() {
           password,
         }
       );
-      console.log("Login successful:", response.data);
-      setMessage("Login successful!");
-      const userRole = response.data.role;
-      localStorage.setItem("role", userRole);
-      setRole(userRole);
-      switch (userRole) {
-        case "CUSTOMER":
-          navigate("/createOrder");
-          break;
-        case "RESTAURANT_MANAGER":
-          navigate("/displayOrder");
-          break;
-        case "GENERAL_MANAGER":
-          navigate("/createRestaurant");
-          break;
-        default:
-          navigate("/");
-          break;
+
+      if (response.status === 200) {
+        console.log("Login successful:", response.data);
+        setMessage("Login successful!");
+        const userRole = response.data.role;
+        localStorage.setItem("role", userRole);
+        setRole(userRole);
+        switch (userRole) {
+          case "CUSTOMER":
+            navigate("/createOrder");
+            break;
+          case "RESTAURANT_MANAGER":
+            navigate("/displayOrder");
+            break;
+          case "GENERAL_MANAGER":
+            navigate("/createRestaurant");
+            break;
+          default:
+            navigate("/");
+            break;
+        }
+      } else {
+        alert("Error: 404 Not Found");
       }
     } catch (error) {
       console.error("Error logging in:", error);

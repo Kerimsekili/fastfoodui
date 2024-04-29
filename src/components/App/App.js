@@ -7,6 +7,7 @@ import OrderCreation from "../Order/OrderCreation";
 import RestaurantDisplay from "../Restaurant/RestaurantDisplay";
 import OrderDisplay from "../Order/OrderDisplay";
 import EditOrder from "../Order/EditOrder";
+import NotFoundPage from "../Error/NotFoundPage";
 
 function App() {
   const userRole = localStorage.getItem("role");
@@ -54,6 +55,7 @@ function App() {
             </Layout>
           }
         />
+        <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </Router>
   );

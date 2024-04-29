@@ -10,6 +10,11 @@ import {
   InputLabel,
   Select,
   MenuItem,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  FormHelperText,
 } from "@mui/material";
 import ThemeProvider from "../../theme/ThemeProvider";
 import axios from "axios";
@@ -24,6 +29,9 @@ function OrderCreation() {
   const [restaurants, setRestaurants] = useState([]);
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
+  const [successDialogOpen, setSuccessDialogOpen] = useState(false);
+  const [customerNameError, setCustomerNameError] = useState("");
+  const [contactNumberError, setContactNumberError] = useState("");
 
   useEffect(() => {
     axios
@@ -37,8 +45,30 @@ function OrderCreation() {
       });
   }, []);
 
+  const validateCustomerName = () => {
+    if (!customerName.trim()) {
+      setCustomerNameError("Customer name is required");
+      return false;
+    }
+    setCustomerNameError("");
+    return true;
+  };
+
+  const validateContactNumber = () => {
+    const phoneRegex = /^(05[0-9]{9})$/;
+    if (!phoneRegex.test(contactNumber)) {
+      setContactNumberError("Invalid Turkish phone number");
+      return false;
+    }
+    setContactNumberError("");
+    return true;
+  };
+
   const handleOrderCreation = async (e) => {
     e.preventDefault();
+    if (!validateCustomerName() || !validateContactNumber()) {
+      return;
+    }
     try {
       await axios.post("http://localhost:8080/api/orders/create", {
         productName,
@@ -48,11 +78,22 @@ function OrderCreation() {
         contactNumber,
         currentStatus,
       });
-      setMessage("Order Created Successfully");
+      setSuccessDialogOpen(true);
+      setProductName("");
+      setRestaurantId("");
+      setDeliveryAddress("");
+      setCustomerName("");
+      setContactNumber("");
+      setCurrentStatus("ORDER_RECEIVED");
     } catch (error) {
       console.error("Error creating order:", error);
-      setMessage("Error creating order");
+      setMessage("There is no user with this name !");
     }
+  };
+
+  const handleCloseSuccessDialog = () => {
+    setSuccessDialogOpen(false);
+    setMessage("");
   };
 
   return (
@@ -157,7 +198,11 @@ function OrderCreation() {
                 value={customerName}
                 onChange={(e) => setCustomerName(e.target.value)}
                 InputProps={{ style: { borderRadius: "15px" } }}
+                error={Boolean(customerNameError)}
               />
+              {customerNameError && (
+                <FormHelperText error>{customerNameError}</FormHelperText>
+              )}
               <TextField
                 label="Contact Number"
                 variant="outlined"
@@ -166,7 +211,11 @@ function OrderCreation() {
                 value={contactNumber}
                 onChange={(e) => setContactNumber(e.target.value)}
                 InputProps={{ style: { borderRadius: "15px" } }}
+                error={Boolean(contactNumberError)}
               />
+              {contactNumberError && (
+                <FormHelperText error>{contactNumberError}</FormHelperText>
+              )}
               <Button
                 type="submit"
                 variant="contained"
@@ -184,6 +233,22 @@ function OrderCreation() {
           </Paper>
         </Container>
       </div>
+      <Dialog
+        open={successDialogOpen}
+        onClose={handleCloseSuccessDialog}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">{"Success"}</DialogTitle>
+        <DialogContent>
+          <Typography variant="body1">Order Created Successfully</Typography>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseSuccessDialog} autoFocus>
+            OK
+          </Button>
+        </DialogActions>
+      </Dialog>
     </ThemeProvider>
   );
 }

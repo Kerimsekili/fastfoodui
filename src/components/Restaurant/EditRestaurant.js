@@ -1,17 +1,12 @@
 import React, { useState, useEffect } from "react";
 import {
-  Dialog,
-  DialogTitle,
-  DialogContent,
   DialogActions,
   Button,
   TextField,
   Select,
   MenuItem,
   FormControl,
-  InputLabel,
   TextareaAutosize,
-  Snackbar,
 } from "@mui/material";
 import axios from "axios";
 
@@ -69,7 +64,6 @@ function EditRestaurant({ open, onClose, restaurant }) {
         style={{ width: "100%", marginTop: "16px" }}
       />
       <FormControl fullWidth margin="normal">
-        {/* <InputLabel>{manager.username}</InputLabel> */}
         <Select value={manager} onChange={(e) => setManager(e.target.value)}>
           <MenuItem key={manager.id} value={manager}>
             {manager.username}

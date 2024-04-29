@@ -10,6 +10,10 @@ import {
   InputLabel,
   Select,
   MenuItem,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
 } from "@mui/material";
 import ThemeProvider from "../../theme/ThemeProvider";
 import axios from "axios";
@@ -18,17 +22,16 @@ function RestaurantCreation() {
   const [restaurantName, setRestaurantName] = useState("");
   const [restaurantAddress, setRestaurantAddress] = useState("");
   const [selectedManagerId, setSelectedManagerId] = useState("");
-  const [managers, setManagers] = useState([]);
   const [message, setMessage] = useState("");
+  const [managers, setManagers] = useState([]);
+  const [successDialogOpen, setSuccessDialogOpen] = useState(false);
   const [error, setError] = useState("");
 
   useEffect(() => {
     axios
       .get("http://localhost:8080/api/users/managers")
       .then((response) => {
-        console.log(response.data);
         setManagers(response.data);
-        console.log("Managers:", response.data);
       })
       .catch((error) => {
         console.error("Error fetching restaurant managers:", error);
@@ -38,18 +41,25 @@ function RestaurantCreation() {
 
   const handleRestaurantCreation = async (e) => {
     e.preventDefault();
-    console.log(e.data);
     try {
       await axios.post("http://localhost:8080/api/restaurants/create", {
         name: restaurantName,
         address: restaurantAddress,
         managerId: selectedManagerId,
       });
-      setMessage("Restaurant Created Successfully");
+      setSuccessDialogOpen(true);
+      setRestaurantName("");
+      setRestaurantAddress("");
+      setSelectedManagerId("");
     } catch (error) {
       console.error("Error creating restaurant:", error);
-      setMessage("Error creating restaurant");
+      setError("Error creating restaurant");
     }
+  };
+
+  const handleCloseSuccessDialog = () => {
+    setSuccessDialogOpen(false);
+    setMessage("");
   };
 
   return (
@@ -82,11 +92,6 @@ function RestaurantCreation() {
               style={{ marginBottom: "20px" }}
             >
               {error}
-            </Typography>
-          )}
-          {message && (
-            <Typography variant="body1" style={{ marginBottom: "20px" }}>
-              {message}
             </Typography>
           )}
           <form onSubmit={handleRestaurantCreation}>
@@ -147,6 +152,25 @@ function RestaurantCreation() {
           </form>
         </Paper>
       </Container>
+
+      <Dialog
+        open={successDialogOpen}
+        onClose={handleCloseSuccessDialog}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">{"Success"}</DialogTitle>
+        <DialogContent>
+          <Typography variant="body1">
+            Restaurant Created Successfully
+          </Typography>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseSuccessDialog} autoFocus>
+            OK
+          </Button>
+        </DialogActions>
+      </Dialog>
     </ThemeProvider>
   );
 }
