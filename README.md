@@ -90,7 +90,9 @@ The project structure is organized as follows:
 - `RestaurantCreation`: Allows restaurant owners to create a new restaurant.
 - `OrderCreation`: Allows customers to create a new order.
 - `RestaurantDisplay`: Displays details of a restaurant.
+- `EditRestaurant`: Class to edit the restaurant.
 - `OrderDisplay`: Displays details of an order.
+- `EditOrder`: Class to update the order.
 - `NotFoundPage`: Displays a 404 error page when a route is not found.
 
 ## Dependencies
